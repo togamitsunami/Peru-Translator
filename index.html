@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Runasimi | English ↔ Español ↔ Quechwa</title>
+
+  <!-- iOS Web App / Home Screen Capabilities -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Runasimi" />
+  <meta name="theme-color" content="#0F172A" />
+
+  <!-- Custom Inline SVG Apple Touch Icon (Andean Chakana / Red & Gold Crest) -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230F172A'/%3E%3Crect x='14' y='14' width='152' height='152' rx='30' fill='none' stroke='%23D91023' stroke-width='6'/%3E%3Cpath d='M72 34h36v20h20v20h20v32h-20v20h-20v20H72v-20H52v-20H32V74h20V54h20V34z' fill='%23D91023'/%3E%3Ccircle cx='90' cy='90' r='16' fill='%23F59E0B'/%3E%3C/svg%3E" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            peru: {
+              red: '#D91023',
+              darkRed: '#B30D1D',
+              gold: '#F59E0B',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Prevent iOS rubber-band overscroll background bleed & smooth scrollbars */
+    html, body {
+      overscroll-behavior-y: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Safe area top spacing for iOS standalone mode */
+    .safe-top {
+      padding-top: max(0.75rem, env(safe-area-inset-top));
+    }
+    .safe-bottom {
+      padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-peru-red/30 selection:text-white">
+
+  <!-- Top Peruvian / Andean Tri-color Bar -->
+  <div class="w-full h-1.5 flex shrink-0">
+    <div class="w-1/3 bg-peru-red"></div>
+    <div class="w-1/3 bg-amber-400"></div>
+    <div class="w-1/3 bg-emerald-500"></div>
+  </div>
+
+  <!-- App Header -->
+  <header class="safe-top px-4 pt-3 pb-2 max-w-lg w-full mx-auto">
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <!-- Mini Chakana Emblem -->
+        <div class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center shadow-inner shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 36 36" fill="none">
+            <path d="M14 4h8v4h4v4h4v12h-4v4h-4v4h-8v-4h-4v-4H6V12h4V8h4V4z" fill="#D91023"/>
+            <circle cx="18" cy="18" r="3.5" fill="#FBBF24"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white leading-tight">
+            English <span class="text-slate-500">↔</span> Español <span class="text-amber-400">↔</span> Quechwa
+          </h1>
+          <p class="text-[11px] text-slate-400">Cusco Runasimi • Hybrid Offline & Live Engine</p>
+        </div>
+      </div>
+
+      <!-- Connection / Engine Badge -->
+      <div id="engine-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-medium text-slate-300 shrink-0">
+        <span id="engine-dot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span id="engine-label">Verified Match</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow px-4 py-2 max-w-lg w-full mx-auto space-y-4 safe-bottom">
+
+    <!-- Source Language Selector & Input Card -->
+    <section class="bg-slate-900/95 border border-slate-800 rounded-3xl p-4 shadow-xl space-y-3">
+      <!-- Source Language Pills -->
+      <div class="flex items-center justify-between gap-2">
+        <div class="grid grid-cols-3 gap-1.5 bg-slate-950 p-1 rounded-2xl border border-slate-800/90 w-full" role="tablist" aria-label="Source language">
+          <button
+            type="button"
+            data-source="en"
+            class="source-pill py-2 px-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-peru-red text-white shadow-sm"
+          >
+            <span>🇺🇸</span>
+            <span>English</span>
+          </button>
+          <button
+            type="button"
+            data-source="es"
+            class="source-pill py-2 px-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-white"
+          >
+            <span>🇵🇪</span>
+            <span>Español</span>
+          </button>
+          <button
+            type="button"
+            data-source="qu"
+            class="source-pill py-2 px-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-white"
+          >
+            <span>🏔️</span>
+            <span>Quechwa</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Input Textarea (16px font prevents iOS Safari auto-zoom) -->
+      <div class="relative">
+        <textarea
+          id="source-input"
+          rows="2"
+          maxlength="280"
+          placeholder="Type in English (e.g., How much does it cost?)..."
+          aria-label="Text to translate"
+          class="w-full bg-slate-950/70 border border-slate-800 focus:border-slate-600 focus:ring-2 focus:ring-peru-red/20 rounded-2xl p-3.5 pr-16 text-base font-medium text-white placeholder-slate-500 resize-none focus:outline-none transition-all"
+        >How are you?</textarea>
+
+        <!-- Clear & Speak Source Buttons -->
+        <div class="absolute right-2.5 top-2.5 flex flex-col gap-1.5">
+          <button
+            id="clear-input-btn"
+            type="button"
+            title="Clear text"
+            aria-label="Clear text"
+            class="w-8 h-8 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <button
+            id="speak-source-btn"
+            type="button"
+            title="Listen to source text"
+            aria-label="Listen to source text"
+            class="w-8 h-8 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-300 hover:text-amber-400 flex items-center justify-center transition-colors"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer Meta Row -->
+      <div class="flex items-center justify-between text-[11px] text-slate-400 px-1">
+        <span id="source-hint">Simultaneous output in Español & Runasimi</span>
+        <span id="char-counter" class="font-mono">12 / 280</span>
+      </div>
+    </section>
+
+    <!-- Dual Output Cards Container -->
+    <section id="outputs-container" class="space-y-3" aria-live="polite">
+      <!-- Target Card 1 (Dynamically rendered) -->
+      <article id="target-card-1" class="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg transition-all"></article>
+
+      <!-- Target Card 2 (Dynamically rendered) -->
+      <article id="target-card-2" class="bg-slate-900 border border-slate-800 rounded-3xl p-4 shadow-lg transition-all"></article>
+    </section>
+
+    <!-- Offline Cusco Phrasebook Section -->
+    <section class="bg-slate-900/80 border border-slate-800/90 rounded-3xl p-4 space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <span>Cusco Phrasebook</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
+              100% Offline
+            </span>
+          </h2>
+          <p class="text-[11px] text-slate-400">Tap any phrase to load, hear, or copy</p>
+        </div>
+        <span id="phrase-count-badge" class="text-xs font-mono text-slate-400">64 phrases</span>
+      </div>
+
+      <!-- Category Filter Pills (Horizontally scrollable on mobile) -->
+      <div id="category-pills" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+        <button type="button" data-cat="all" class="cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-400 text-slate-950 transition-all">
+          All
+        </button>
+        <button type="button" data-cat="greetings" class="cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+          Greetings
+        </button>
+        <button type="button" data-cat="market" class="cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+          Market & Prices
+        </button>
+        <button type="button" data-cat="food" class="cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+          Food & Drink
+        </button>
+        <button type="button" data-cat="directions" class="cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+          Directions
+        </button>
+        <button type="button" data-cat="numbers" class="cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+          Numbers
+        </button>
+      </div>
+
+      <!-- Phrasebook List -->
+      <div id="phrasebook-list" class="space-y-2 max-h-96 overflow-y-auto pr-0.5">
+        <!-- Populated via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div
+    id="toast"
+    role="status"
+    aria-live="polite"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-full bg-white text-slate-950 text-xs font-semibold shadow-2xl opacity-0 pointer-events-none transition-all duration-200 flex items-center gap-2 z-50"
+  >
+    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+    <span id="toast-text">Copied!</span>
+  </div>
+
+  <!-- Hidden Copy Helper for iOS Safari / WebView compatibility -->
+  <textarea id="copy-helper" class="sr-only" aria-hidden="true"></textarea>
+
+  <script>
+    /**
+     * Verified Cusco-Collao Quechua (Runasimi) ↔ Peruvian Spanish ↔ English Dictionary
+     * Includes syllable-by-syllable phonetic pronunciation guides for Cusco Quechua.
+     */
+    const PHRASEBOOK = [
+      // GREETINGS & POLITENESS
+      { cat: 'greetings', en: 'Hello', es: 'Hola', qu: 'Rimaykullayki', pron: 'ri-may-ku-YAY-ki', note: 'Warm, respectful greeting' },
+      { cat: 'greetings', en: 'Good morning', es: 'Buenos días', qu: 'Allin p’unchay', pron: 'A-yin POON-chay' },
+      { cat: 'greetings', en: 'Good afternoon', es: 'Buenas tardes', qu: 'Allin sukha', pron: 'A-yin SOO-kha' },
+      { cat: 'greetings', en: 'Good evening / Good night', es: 'Buenas noches', qu: 'Allin tuta', pron: 'A-yin TOO-ta' },
+      { cat: 'greetings', en: 'How are you?', es: '¿Cómo estás?', qu: 'Allillanchu?', pron: 'a-yi-YAN-chu' },
+      { cat: 'greetings', en: "I'm fine, thank you", es: 'Estoy bien, gracias', qu: 'Allillanmi, añay', pron: 'a-yi-YAN-mi, A-ñay' },
+      { cat: 'greetings', en: 'Thank you', es: 'Gracias', qu: 'Añay / Sulpayki', pron: 'A-ñay / sul-PAY-ki', note: 'Añay is pure Quechua; Sulpayki is widely used' },
+      { cat: 'greetings', en: 'Thank you very much', es: 'Muchas gracias', qu: 'Ancha añay / Sulpayki', pron: 'AN-cha A-ñay' },
+      { cat: 'greetings', en: "You're welcome", es: 'De nada', qu: 'Imamanta', pron: 'i-ma-MAN-ta' },
+      { cat: 'greetings', en: 'Please', es: 'Por favor', qu: 'Ama hina kaychu', pron: 'A-ma HEE-na KAY-chu', lit: 'Literally: Do not be like that' },
+      { cat: 'greetings', en: 'Excuse me / Sorry', es: 'Perdón / Disculpa', qu: 'Pampachaykuway', pron: 'pam-pa-chay-KOO-way' },
+      { cat: 'greetings', en: 'Yes', es: 'Sí', qu: 'Arí', pron: 'a-REE' },
+      { cat: 'greetings', en: 'No', es: 'No', qu: 'Mana / Manan', pron: 'MA-na / MA-nan' },
+      { cat: 'greetings', en: 'What is your name?', es: '¿Cómo te llamas?', qu: '¿Imataq sutiyki?', pron: 'i-MA-taq su-TEEY-ki' },
+      { cat: 'greetings', en: 'My name is...', es: 'Me llamo...', qu: 'Sutiyqa ... mi', pron: 'su-TEEY-qa ... mi' },
+      { cat: 'greetings', en: 'Nice to meet you', es: 'Mucho gusto', qu: 'Ancha kusisqa', pron: 'AN-cha ku-SEES-qa' },
+      { cat: 'greetings', en: 'I do not understand', es: 'No entiendo', qu: 'Manan hamut’anichu', pron: 'MA-nan ha-mu-TA-ni-chu' },
+      { cat: 'greetings', en: 'Until we meet again / Goodbye', es: 'Hasta pronto / Adiós', qu: 'Tupananchiskama', pron: 'tu-pa-nan-chis-KA-ma', note: 'Andean farewell (never truly goodbye)' },
+      { cat: 'greetings', en: 'Friend', es: 'Amigo / Amiga', qu: 'Masi / Wayqey', pron: 'MA-si / WAY-qey' },
+      { cat: 'greetings', en: 'Help!', es: '¡Ayuda!', qu: '¡Yanapaway!', pron: 'ya-na-PA-way' },
+
+      // MARKET & PRICES
+      { cat: 'market', en: 'How much does it cost?', es: '¿Cuánto cuesta?', qu: '¿Hayk’a kan? / ¿Hayk’ataq?', pron: 'HAY-ka kan / hay-KA-taq' },
+      { cat: 'market', en: 'Too expensive', es: 'Muy caro', qu: 'Ancha chanin', pron: 'AN-cha CHA-nin' },
+      { cat: 'market', en: 'Is there a discount?', es: '¿Hay rebaja? / ¿Yapa?', qu: '¿Chimpu kanchu?', pron: 'CHEEM-pu KAN-chu' },
+      { cat: 'market', en: 'A little extra (market bonus)', es: 'La yapa, por favor', qu: 'Yapaykuway', pron: 'ya-pay-KOO-way', note: 'Traditional Peruvian market bonus' },
+      { cat: 'market', en: 'I want to buy this', es: 'Quiero comprar esto', qu: 'Kayta rantiyta munani', pron: 'KAY-ta ran-TEEY-ta mu-NA-ni' },
+      { cat: 'market', en: 'Money / Cash', es: 'Dinero / Plata', qu: 'Qullqi', pron: 'QOOL-qi' },
+      { cat: 'market', en: 'Do you have change?', es: '¿Tiene sencillo / cambio?', qu: '¿Sencillo kanchu?', pron: 'sen-SEE-yo KAN-chu' },
+      { cat: 'market', en: 'Beautiful / Pretty', es: 'Bonito / Hermoso', qu: 'Sumak / Munay', pron: 'SOO-maq / MOO-nay' },
+      { cat: 'market', en: 'Big / Large', es: 'Grande', qu: 'Hatun', pron: 'HA-tun' },
+      { cat: 'market', en: 'Small / Little', es: 'Pequeño / Chico', qu: 'Huch’uy', pron: 'HOO-chuy' },
+      { cat: 'market', en: 'Alpaca wool', es: 'Lana de alpaca', qu: 'Allpaqa millma', pron: 'ay-PA-qa MEEL-ma' },
+      { cat: 'market', en: 'Market', es: 'Mercado', qu: 'Qhatu', pron: 'QHA-tu' },
+
+      // FOOD & DRINK
+      { cat: 'food', en: 'Water', es: 'Agua', qu: 'Unu / Yaku', pron: 'OO-nu / YA-ku', note: 'Unu is used in Cusco; Yaku in central Peru' },
+      { cat: 'food', en: 'Food', es: 'Comida', qu: 'Mikhuy', pron: 'MEE-khuy' },
+      { cat: 'food', en: 'Delicious / Tasty', es: 'Delicioso / Rico', qu: 'Misk’i / Sumaq', pron: 'MEES-ki / SOO-maq' },
+      { cat: 'food', en: 'I am hungry', es: 'Tengo hambre', qu: 'Yarqawanmi', pron: 'yar-qa-WAN-mi' },
+      { cat: 'food', en: 'I am thirsty', es: 'Tengo sed', qu: 'Ch’akichiwanmi', pron: 'cha-ki-chi-WAN-mi' },
+      { cat: 'food', en: 'Bread', es: 'Pan', qu: 'T’anta', pron: 'TAN-ta' },
+      { cat: 'food', en: 'Potato', es: 'Papa', qu: 'Papa', pron: 'PA-pa' },
+      { cat: 'food', en: 'Corn', es: 'Maíz / Choclo', qu: 'Sara', pron: 'SA-ra' },
+      { cat: 'food', en: 'Tea / Infusion', es: 'Mate / Infusión', qu: 'Mate / Q’uñi unu', pron: 'MA-te / QOO-ñi OO-nu' },
+      { cat: 'food', en: 'Coca tea', es: 'Mate de coca', qu: 'Kuka mate', pron: 'KOO-ka MA-te', note: 'Helpful for Cusco altitude' },
+      { cat: 'food', en: 'Corn beer (Chicha)', es: 'Chicha de jora', qu: 'Aqha', pron: 'A-qha' },
+      { cat: 'food', en: 'Cheers!', es: '¡Salud!', qu: '¡Upyasunchis!', pron: 'up-ya-SOON-chis' },
+      { cat: 'food', en: 'Hot (temperature)', es: 'Caliente', qu: 'Q’uñi', pron: 'QOO-ñi' },
+      { cat: 'food', en: 'Cold', es: 'Frío', qu: 'Chiri', pron: 'CHEE-ri' },
+
+      // DIRECTIONS & TRAVEL
+      { cat: 'directions', en: 'Where is the bathroom?', es: '¿Dónde está el baño?', qu: '¿Maypitaq baño kachkan?', pron: 'MAY-pi-taq BA-ño KACH-kan' },
+      { cat: 'directions', en: 'Where is...?', es: '¿Dónde está...?', qu: '¿Maypitaq...?', pron: 'MAY-pi-taq' },
+      { cat: 'directions', en: 'Main square (Plaza de Armas)', es: 'Plaza de Armas', qu: 'Hawkaypata', pron: 'haw-kay-PA-ta' },
+      { cat: 'directions', en: 'Mountain / Sacred peak', es: 'Montaña / Apu', qu: 'Urqu / Apu', pron: 'OOR-qu / A-pu' },
+      { cat: 'directions', en: 'Trail / Road', es: 'Camino', qu: 'Ñan', pron: 'ÑAN' },
+      { cat: 'directions', en: 'Left', es: 'Izquierda', qu: 'Lluq’i', pron: 'YOO-qi' },
+      { cat: 'directions', en: 'Right', es: 'Derecha', qu: 'Paña', pron: 'PA-ña' },
+      { cat: 'directions', en: 'Straight ahead', es: 'Todo recto / Derecho', qu: 'Chiqanman', pron: 'chi-QAN-man' },
+      { cat: 'directions', en: 'Near / Close', es: 'Cerca', qu: 'Sispa / Kaylla', pron: 'SEES-pa / KAY-ya' },
+      { cat: 'directions', en: 'Far', es: 'Lejos', qu: 'Karu', pron: 'KA-ru' },
+      { cat: 'directions', en: 'Sun', es: 'Sol', qu: 'Inti', pron: 'EEN-ti' },
+      { cat: 'directions', en: 'Mother Earth', es: 'Madre Tierra', qu: 'Pachamama', pron: 'pa-cha-MA-ma' },
+
+      // NUMBERS 1–10 + 100
+      { cat: 'numbers', en: 'One (1)', es: 'Uno (1)', qu: 'Huk', pron: 'HOOK' },
+      { cat: 'numbers', en: 'Two (2)', es: 'Dos (2)', qu: 'Iskay', pron: 'EES-kay' },
+      { cat: 'numbers', en: 'Three (3)', es: 'Tres (3)', qu: 'Kinsa', pron: 'KEEN-sa' },
+      { cat: 'numbers', en: 'Four (4)', es: 'Cuatro (4)', qu: 'Tawa', pron: 'TA-wa' },
+      { cat: 'numbers', en: 'Five (5)', es: 'Cinco (5)', qu: 'Phisqa', pron: 'PEES-qa' },
+      { cat: 'numbers', en: 'Six (6)', es: 'Seis (6)', qu: 'Suqta', pron: 'SOOQ-ta' },
+      { cat: 'numbers', en: 'Seven (7)', es: 'Siete (7)', qu: 'Qanchis', pron: 'QAN-chis' },
+      { cat: 'numbers', en: 'Eight (8)', es: 'Ocho (8)', qu: 'Pusaq', pron: 'POO-saq' },
+      { cat: 'numbers', en: 'Nine (9)', es: 'Nueve (9)', qu: 'Isqun', pron: 'EES-qun' },
+      { cat: 'numbers', en: 'Ten (10)', es: 'Diez (10)', qu: 'Chunka', pron: 'CHOON-ka' },
+      { cat: 'numbers', en: 'One hundred (100)', es: 'Cien (100)', qu: 'Pachak', pron: 'PA-chak' }
+    ];
+
+    /**
+     * Application State
+     */
+    const state = {
+      sourceLang: 'en', // 'en' | 'es' | 'qu'
+      activeCategory: 'all',
+      debounceTimer: null,
+      lastRequestId: 0
+    };
+
+    const LANG_META = {
+      en: {
+        code: 'en',
+        name: 'English',
+        region: 'English (US)',
+        flag: '🇺🇸',
+        speechLang: 'en-US',
+        accentBorder: 'border-sky-500/30',
+        badgeBg: 'bg-sky-500/15 text-sky-300 border-sky-500/25',
+        placeholder: 'Type in English (e.g., How much does it cost?)...'
+      },
+      es: {
+        code: 'es',
+        name: 'Español',
+        region: 'Español (Perú)',
+        flag: '🇵🇪',
+        speechLang: 'es-PE',
+        accentBorder: 'border-peru-red/40',
+        badgeBg: 'bg-peru-red/20 text-rose-300 border-peru-red/30',
+        placeholder: 'Escribe en español (ej. ¿Cuánto cuesta?)...'
+      },
+      qu: {
+        code: 'qu',
+        name: 'Quechwa',
+        region: 'Runasimi • Quechwa (Cusco)',
+        flag: '🏔️',
+        speechLang: 'es-PE', // Phonetic reading fallback via Spanish phoneme rules
+        accentBorder: 'border-amber-400/40',
+        badgeBg: 'bg-amber-400/15 text-amber-300 border-amber-400/30',
+        placeholder: 'Runasimipi qillqay (ej. Allillanchu?)...'
+      }
+    };
+
+    // DOM References
+    const els = {
+      sourcePills: document.querySelectorAll('.source-pill'),
+      sourceInput: document.getElementById('source-input'),
+      clearInputBtn: document.getElementById('clear-input-btn'),
+      speakSourceBtn: document.getElementById('speak-source-btn'),
+      sourceHint: document.getElementById('source-hint'),
+      charCounter: document.getElementById('char-counter'),
+      targetCard1: document.getElementById('target-card-1'),
+      targetCard2: document.getElementById('target-card-2'),
+      engineDot: document.getElementById('engine-dot'),
+      engineLabel: document.getElementById('engine-label'),
+      categoryPills: document.querySelectorAll('.cat-pill'),
+      phrasebookList: document.getElementById('phrasebook-list'),
+      phraseCountBadge: document.getElementById('phrase-count-badge'),
+      toast: document.getElementById('toast'),
+      toastText: document.getElementById('toast-text'),
+      copyHelper: document.getElementById('copy-helper')
+    };
+
+    /**
+     * Normalize text for accent-insensitive, punctuation-tolerant matching
+     */
+    function normalizeText(str) {
+      return (str || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[’'`]/g, '')
+        .replace(/[¿?¡!.,;:()]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    /**
+     * Generate automatic syllable-level phonetic hint for arbitrary Quechua words
+     */
+    function generateQuechuaPhonetics(quechuaText) {
+      if (!quechuaText) return '';
+      return quechuaText
+        .split(/\s+/)
+        .map((word) => {
+          const clean = word.replace(/[¿?¡!.,]/g, '');
+          if (!clean) return '';
+          // Approximate Andean phonetic breakdown: ll -> y, q -> kh/q, vowels a/i/u
+          return clean
+            .toLowerCase()
+            .replace(/ll/g, 'y')
+            .replace(/([aeiou])([^aeiou]{1,2})(?=[aeiou])/g, '$1-$2');
+        })
+        .filter(Boolean)
+        .join(' ');
+    }
+
+    /**
+     * Search local verified phrasebook (Exact -> Substring -> Word-level match)
+     */
+    function findLocalMatch(query, sourceLang) {
+      const normQuery = normalizeText(query);
+      if (!normQuery) return null;
+
+      // 1. Exact normalized match
+      for (const item of PHRASEBOOK) {
+        const candidate = normalizeText(item[sourceLang]);
+        // Also strip parenthetical notes like "(1)"
+        const candidateNoParens = normalizeText(item[sourceLang].replace(/\(.*?\)/g, ''));
+        if (normQuery === candidate || normQuery === candidateNoParens) {
+          return { ...item, matchType: 'exact' };
+        }
+      }
+
+      // 2. Strong phrase containment match (for queries >= 4 chars)
+      if (normQuery.length >= 4) {
+        for (const item of PHRASEBOOK) {
+          const candidateNoParens = normalizeText(item[sourceLang].replace(/\(.*?\)/g, ''));
+          if (
+            candidateNoParens.length >= 4 &&
+            (candidateNoParens.includes(normQuery) || normQuery.includes(candidateNoParens))
+          ) {
+            return { ...item, matchType: 'phrase' };
+          }
+        }
+      }
+
+      return null;
+    }
+
+    /**
+     * Fallback word-by-word lookup against local vocabulary when offline
+     */
+    function offlineWordLookup(query, sourceLang) {
+      const words = normalizeText(query).split(' ').filter(Boolean);
+      if (words.length === 0) return null;
+
+      let matchedCount = 0;
+      const esTokens = [];
+      const quTokens = [];
+      const enTokens = [];
+
+      for (const w of words) {
+        let found = null;
+        for (const item of PHRASEBOOK) {
+          const itemWords = normalizeText(item[sourceLang].replace(/\(.*?\)/g, '')).split(' ');
+          if (itemWords.length === 1 && itemWords[0] === w) {
+            found = item;
+            break;
+          }
+        }
+        if (found) {
+          matchedCount++;
+          enTokens.push(found.en.replace(/\(.*?\)/g, '').trim());
+          esTokens.push(found.es.replace(/\(.*?\)/g, '').trim());
+          quTokens.push(found.qu.split('/')[0].trim());
+        } else {
+          enTokens.push(w);
+          esTokens.push(w);
+          quTokens.push(w);
+        }
+      }
+
+      if (matchedCount > 0) {
+        const quJoined = quTokens.join(' ');
+        return {
+          en: enTokens.join(' '),
+          es: esTokens.join(' '),
+          qu: quJoined,
+          pron: generateQuechuaPhonetics(quJoined),
+          matchType: 'offline-gloss'
+        };
+      }
+      return null;
+    }
+
+    /**
+     * Query MyMemory Translation API with Spanish pivot for higher Quechua quality
+     */
+    async function fetchMyMemory(text, sourceLang, targetLang) {
+      const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetLang}`;
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5500);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeout);
+        if (!res.ok) return null;
+        const data = await res.json();
+        const translated = data?.responseData?.translatedText;
+        if (!translated || translated.toUpperCase().includes('INVALID LANGUAGE PAIR')) {
+          return null;
+        }
+        return translated;
+      } catch (e) {
+        clearTimeout(timeout);
+        return null;
+      }
+    }
+
+    /**
+     * Hybrid Translation Orchestrator:
+     * 1. Checks local verified Cusco Runasimi phrasebook immediately.
+     * 2. For arbitrary sentences, translates via MyMemory (pivoting through Spanish for Quechua).
+     * 3. Falls back gracefully to offline word-gloss if disconnected.
+     */
+    async function translateText(rawText) {
+      const text = rawText.trim();
+      const requestId = ++state.lastRequestId;
+
+      if (!text) {
+        setEngineStatus('ready', 'Ready');
+        renderEmptyOutputs();
+        return;
+      }
+
+      // Step 1: Instant local verified match
+      const localMatch = findLocalMatch(text, state.sourceLang);
+      if (localMatch) {
+        setEngineStatus('verified', 'Verified Cusco Match');
+        renderOutputs({
+          en: localMatch.en,
+          es: localMatch.es,
+          qu: localMatch.qu,
+          pron: localMatch.pron,
+          note: localMatch.note || localMatch.lit || ''
+        });
+        return;
+      }
+
+      // Step 2: Live API translation for custom sentences
+      setEngineStatus('loading', 'Translating...');
+
+      let result = { en: '', es: '', qu: '', pron: '', note: '' };
+
+      if (state.sourceLang === 'en') {
+        result.en = text;
+        const esText = await fetchMyMemory(text, 'en', 'es');
+        if (requestId !== state.lastRequestId) return;
+
+        if (esText) {
+          result.es = esText;
+          // Pivot through Spanish -> Quechua for higher accuracy
+          const quText = await fetchMyMemory(esText, 'es', 'qu');
+          if (requestId !== state.lastRequestId) return;
+          result.qu = quText || (offlineWordLookup(text, 'en')?.qu ?? '');
+          result.pron = generateQuechuaPhonetics(result.qu);
+          setEngineStatus('live', 'Live Translation');
+          renderOutputs(result);
+          return;
+        }
+      } else if (state.sourceLang === 'es') {
+        result.es = text;
+        const [enText, quText] = await Promise.all([
+          fetchMyMemory(text, 'es', 'en'),
+          fetchMyMemory(text, 'es', 'qu')
+        ]);
+        if (requestId !== state.lastRequestId) return;
+
+        if (enText || quText) {
+          result.en = enText || text;
+          result.qu = quText || (offlineWordLookup(text, 'es')?.qu ?? '');
+          result.pron = generateQuechuaPhonetics(result.qu);
+          setEngineStatus('live', 'Live Translation');
+          renderOutputs(result);
+          return;
+        }
+      } else if (state.sourceLang === 'qu') {
+        result.qu = text;
+        const esText = await fetchMyMemory(text, 'qu', 'es');
+        if (requestId !== state.lastRequestId) return;
+
+        if (esText) {
+          result.es = esText;
+          const enText = await fetchMyMemory(esText, 'es', 'en');
+          if (requestId !== state.lastRequestId) return;
+          result.en = enText || esText;
+          setEngineStatus('live', 'Live Translation');
+          renderOutputs(result);
+          return;
+        }
+      }
+
+      // Step 3: Offline fallback when API is unreachable
+      const offlineFallback = offlineWordLookup(text, state.sourceLang);
+      if (offlineFallback) {
+        setEngineStatus('offline', 'Offline Gloss');
+        renderOutputs({
+          en: offlineFallback.en,
+          es: offlineFallback.es,
+          qu: offlineFallback.qu,
+          pron: offlineFallback.pron,
+          note: 'Offline word-by-word match (connect to internet for full sentences)'
+        });
+      } else {
+        setEngineStatus('offline', 'Offline Mode');
+        renderOutputs({
+          en: state.sourceLang === 'en' ? text : 'Offline — pick a phrase below',
+          es: state.sourceLang === 'es' ? text : 'Sin conexión — elige una frase abajo',
+          qu: state.sourceLang === 'qu' ? text : 'Mana internet kanchu — uraypi akllay',
+          pron: 'MA-na in-ter-NET KAN-chu',
+          note: 'No internet connection. Tap any phrase in the Cusco Phrasebook below.'
+        });
+      }
+    }
+
+    /**
+     * Update top-right engine indicator pill
+     */
+    function setEngineStatus(type, label) {
+      els.engineLabel.textContent = label;
+      const dotClasses = {
+        verified: 'w-2 h-2 rounded-full bg-emerald-400',
+        live: 'w-2 h-2 rounded-full bg-sky-400',
+        loading: 'w-2 h-2 rounded-full bg-amber-400 animate-pulse',
+        offline: 'w-2 h-2 rounded-full bg-rose-400',
+        ready: 'w-2 h-2 rounded-full bg-slate-500'
+      };
+      els.engineDot.className = dotClasses[type] || dotClasses.ready;
+    }
+
+    /**
+     * Render placeholder state when input is cleared
+     */
+    function renderEmptyOutputs() {
+      const targets = getTargetLanguages();
+      [els.targetCard1, els.targetCard2].forEach((cardEl, idx) => {
+        const meta = LANG_META[targets[idx]];
+        cardEl.className = `bg-slate-900 border ${meta.accentBorder} rounded-3xl p-4 shadow-lg`;
+        cardEl.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${meta.badgeBg}">
+              <span>${meta.flag}</span>
+              <span>${meta.region}</span>
+            </span>
+          </div>
+          <p class="text-slate-500 text-base italic py-1">Translation will appear here...</p>
+        `;
+      });
+    }
+
+    /**
+     * Determine which two target languages to display based on active source
+     */
+    function getTargetLanguages() {
+      if (state.sourceLang === 'en') return ['es', 'qu'];
+      if (state.sourceLang === 'es') return ['qu', 'en'];
+      return ['es', 'en'];
+    }
+
+    /**
+     * Render the two simultaneous output cards
+     */
+    function renderOutputs(data) {
+      const targets = getTargetLanguages();
+      const cards = [els.targetCard1, els.targetCard2];
+
+      targets.forEach((langCode, index) => {
+        const meta = LANG_META[langCode];
+        const cardEl = cards[index];
+        const translatedValue = data[langCode] || '—';
+        const isQuechua = langCode === 'qu';
+
+        cardEl.className = `bg-slate-900 border ${meta.accentBorder} rounded-3xl p-4 shadow-lg space-y-2.5`;
+
+        cardEl.innerHTML = `
+          <div class="flex items-center justify-between gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${meta.badgeBg}">
+              <span>${meta.flag}</span>
+              <span>${meta.region}</span>
+            </span>
+
+            <div class="flex items-center gap-1.5">
+              <button
+                type="button"
+                data-speak-lang="${langCode}"
+                data-speak-text="${escapeAttr(translatedValue)}"
+                class="speak-btn inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs font-medium text-slate-200 transition-all"
+                title="${isQuechua ? 'Listen (phonetic guide)' : 'Listen'}"
+              >
+                <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07" />
+                </svg>
+                <span>${isQuechua ? 'Pronounce' : 'Listen'}</span>
+              </button>
+
+              <button
+                type="button"
+                data-copy-text="${escapeAttr(translatedValue)}"
+                class="copy-btn inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs font-medium text-slate-200 transition-all"
+                title="Copy translation"
+              >
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                </svg>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="text-xl sm:text-2xl font-bold text-white leading-snug break-words select-all">
+            ${escapeHtml(translatedValue)}
+          </div>
+
+          ${
+            isQuechua && data.pron
+              ? `<div class="flex flex-wrap items-center gap-2 pt-0.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 font-mono text-xs text-amber-300">
+                    /${escapeHtml(data.pron)}/
+                  </span>
+                  ${data.note ? `<span class="text-[11px] text-slate-400">${escapeHtml(data.note)}</span>` : ''}
+                </div>`
+              : ''
+          }
+        `;
+      });
+    }
+
+    /**
+     * Render Filterable Offline Phrasebook Cards
+     */
+    function renderPhrasebook() {
+      const filtered =
+        state.activeCategory === 'all'
+          ? PHRASEBOOK
+          : PHRASEBOOK.filter((item) => item.cat === state.activeCategory);
+
+      els.phraseCountBadge.textContent = `${filtered.length} phrase${filtered.length === 1 ? '' : 's'}`;
+      els.phrasebookList.innerHTML = '';
+
+      filtered.forEach((item) => {
+        const row = document.createElement('div');
+        row.className =
+          'group rounded-2xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800/90 hover:border-slate-700 p-3 transition-all cursor-pointer active:scale-[0.99]';
+
+        row.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div class="space-y-1 min-w-0">
+              <div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                <span class="text-sm font-bold text-amber-300">${escapeHtml(item.qu)}</span>
+                <span class="font-mono text-[11px] text-slate-400">/${escapeHtml(item.pron)}/</span>
+              </div>
+              <p class="text-xs font-medium text-slate-200">${escapeHtml(item.es)}</p>
+              <p class="text-xs text-slate-400">${escapeHtml(item.en)}</p>
+            </div>
+
+            <div class="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                data-speak-lang="qu"
+                data-speak-text="${escapeAttr(item.qu)}"
+                class="speak-btn p-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-amber-400 border border-slate-800 transition-colors"
+                title="Hear Quechua pronunciation"
+                aria-label="Hear Quechua pronunciation"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 010 7.07" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-copy-text="${escapeAttr(item.qu)}"
+                class="copy-btn p-2 rounded-xl bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-800 transition-colors"
+                title="Copy Quechua phrase"
+                aria-label="Copy Quechua phrase"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Clicking the card loads the phrase into the active source input
+        row.addEventListener('click', (e) => {
+          if (e.target.closest('button')) return;
+          const phraseForActiveSource = item[state.sourceLang].replace(/\s*\(\d+\)$/, '');
+          els.sourceInput.value = phraseForActiveSource;
+          updateCharCounter();
+          translateText(phraseForActiveSource);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        els.phrasebookList.appendChild(row);
+      });
+    }
+
+    /**
+     * Web Speech API Audio Pronunciation
+     * Uses es-PE phonetic rules for Quechua (since Quechua vowels a/i/u & consonants map closely to Spanish phonetics)
+     */
+    function speakText(text, langCode) {
+      if (!text || !('speechSynthesis' in window)) {
+        showToast('Audio not supported on this browser');
+        return;
+      }
+
+      try {
+        window.speechSynthesis.cancel();
+        // Clean up slash alternatives like "Añay / Sulpayki" -> speak first variant
+        const primaryVariant = text.split('/')[0].replace(/\(.*?\)/g, '').trim();
+        const utterance = new SpeechSynthesisUtterance(primaryVariant);
+        utterance.lang = LANG_META[langCode]?.speechLang || 'es-PE';
+        utterance.rate = langCode === 'qu' ? 0.85 : 0.95; // Slightly slower for clear Quechua syllables
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        showToast('Tap screen first to enable audio');
+      }
+    }
+
+    /**
+     * Copy text reliably on iOS Safari & Standalone Web Apps
+     */
+    function copyTextToClipboard(text) {
+      if (!text) return;
+      try {
+        els.copyHelper.value = text;
+        els.copyHelper.classList.remove('sr-only');
+        els.copyHelper.select();
+        els.copyHelper.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        els.copyHelper.classList.add('sr-only');
+        showToast(`Copied: "${text}"`);
+      } catch (err) {
+        showToast('Could not copy text');
+      }
+    }
+
+    /**
+     * Show brief feedback toast
+     */
+    let toastTimer = null;
+    function showToast(msg) {
+      els.toastText.textContent = msg;
+      els.toast.classList.remove('opacity-0', 'translate-y-2');
+      els.toast.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        els.toast.classList.remove('opacity-100', 'translate-y-0');
+        els.toast.classList.add('opacity-0', 'translate-y-2');
+      }, 2000);
+    }
+
+    /**
+     * Update character counter
+     */
+    function updateCharCounter() {
+      els.charCounter.textContent = `${els.sourceInput.value.length} / 280`;
+    }
+
+    /**
+     * HTML & Attribute Escaping Helpers
+     */
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+    function escapeAttr(str) {
+      return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    /**
+     * Event Listeners
+     */
+    els.sourcePills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const newLang = pill.dataset.source;
+        if (newLang === state.sourceLang) return;
+        state.sourceLang = newLang;
+
+        // Update pill styling
+        els.sourcePills.forEach((p) => {
+          if (p.dataset.source === newLang) {
+            p.className =
+              'source-pill py-2 px-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-peru-red text-white shadow-sm';
+          } else {
+            p.className =
+              'source-pill py-2 px-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-white';
+          }
+        });
+
+        // Update placeholder & hint
+        els.sourceInput.placeholder = LANG_META[newLang].placeholder;
+        const targets = getTargetLanguages().map((code) => LANG_META[code].name);
+        els.sourceHint.textContent = `Simultaneous output in ${targets[0]} & ${targets[1]}`;
+
+        // Set a helpful starter phrase in the newly selected language
+        const starters = {
+          en: 'How are you?',
+          es: '¿Cómo estás?',
+          qu: 'Allillanchu?'
+        };
+        els.sourceInput.value = starters[newLang];
+        updateCharCounter();
+        translateText(els.sourceInput.value);
+      });
+    });
+
+    els.sourceInput.addEventListener('input', () => {
+      updateCharCounter();
+      clearTimeout(state.debounceTimer);
+      state.debounceTimer = setTimeout(() => {
+        translateText(els.sourceInput.value);
+      }, 320);
+    });
+
+    els.clearInputBtn.addEventListener('click', () => {
+      els.sourceInput.value = '';
+      updateCharCounter();
+      els.sourceInput.focus();
+      translateText('');
+    });
+
+    els.speakSourceBtn.addEventListener('click', () => {
+      speakText(els.sourceInput.value, state.sourceLang);
+    });
+
+    // Delegated click handler for Copy & Speak buttons across output cards & phrasebook
+    document.addEventListener('click', (e) => {
+      const speakBtn = e.target.closest('.speak-btn');
+      if (speakBtn) {
+        e.stopPropagation();
+        speakText(speakBtn.dataset.speakText, speakBtn.dataset.speakLang);
+        return;
+      }
+
+      const copyBtn = e.target.closest('.copy-btn');
+      if (copyBtn) {
+        e.stopPropagation();
+        copyTextToClipboard(copyBtn.dataset.copyText);
+      }
+    });
+
+    // Phrasebook category filtering
+    els.categoryPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        state.activeCategory = pill.dataset.cat;
+        els.categoryPills.forEach((p) => {
+          if (p.dataset.cat === state.activeCategory) {
+            p.className =
+              'cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-400 text-slate-950 transition-all';
+          } else {
+            p.className =
+              'cat-pill shrink-0 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all';
+          }
+        });
+        renderPhrasebook();
+      });
+    });
+
+    // Initialize App on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateCharCounter();
+      renderPhrasebook();
+      translateText(els.sourceInput.value);
+    });
+  </script>
+</body>
+</html>
